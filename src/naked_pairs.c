@@ -1,8 +1,8 @@
-#include "hidden_pairs.h"
+#include "naked_pairs.h"
 #include "sudoku.h"
 
-// Helper function to find hidden pairs in a group of cells
-void find_hidden_pairs(Cell **p_cells, int *hidden_pair_values, int *pair_count)
+// Helper function to find naked pairs in a group of cells
+void find_naked_pairs(Cell **p_cells, int *naked_pair_values, int *pair_count)
 {
     // Iterate over each pair of cells
     for (int i = 0; i < BOARD_SIZE - 1; ++i)
@@ -16,7 +16,7 @@ void find_hidden_pairs(Cell **p_cells, int *hidden_pair_values, int *pair_count)
                 if (p_cells[i]->candidates[0] == p_cells[j]->candidates[0] &&
                     p_cells[i]->candidates[1] == p_cells[j]->candidates[1])
                 {
-                    // Found a hidden pair
+                    // Found a naked pair
                     int candidate1 = p_cells[i]->candidates[0];
                     int candidate2 = p_cells[i]->candidates[1];
 
@@ -30,41 +30,41 @@ void find_hidden_pairs(Cell **p_cells, int *hidden_pair_values, int *pair_count)
                         }
                     }
 
-                    // Record the hidden pair values
-                    hidden_pair_values[(*pair_count)++] = candidate1;
-                    hidden_pair_values[(*pair_count)++] = candidate2;
+                    // Record the naked pair values
+                    naked_pair_values[(*pair_count)++] = candidate1;
+                    naked_pair_values[(*pair_count)++] = candidate2;
                 }
             }
         }
     }
 }
 
-// Function to apply the hidden pairs technique to a Sudoku board
-int hidden_pairs(SudokuBoard *p_board)
+// Function to apply the naked pairs technique to a Sudoku board
+int naked_pairs(SudokuBoard *p_board)
 {
     int pair_count = 0;
-    int hidden_pair_values[BOARD_SIZE * 2];  // Assuming pairs can be found in one row/column/box
+    int naked_pair_values[BOARD_SIZE * 2];  // Assuming pairs can be found in one row/column/box
 
-    // Check hidden pairs in rows
+    // Check naked pairs in rows
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        find_hidden_pairs(p_board->p_rows[i], hidden_pair_values, &pair_count);
+        find_naked_pairs(p_board->p_rows[i], naked_pair_values, &pair_count);
     }
 
-    // Check hidden pairs in columns
+    // Check naked pairs in columns
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        find_hidden_pairs(p_board->p_cols[i], hidden_pair_values, &pair_count);
+        find_naked_pairs(p_board->p_cols[i], naked_pair_values, &pair_count);
     }
 
-    // Check hidden pairs in boxes
+    // Check naked pairs in boxes
     for (int i = 0; i < BOARD_SIZE; ++i)
     {
-        find_hidden_pairs(p_board->p_boxes[i], hidden_pair_values, &pair_count);
+        find_naked_pairs(p_board->p_boxes[i], naked_pair_values, &pair_count);
     }
 
-    // Apply the hidden pairs
-    // Implement the logic to eliminate hidden pair candidates from other cells
+    // Apply the naked pairs
+    // Implement the logic to eliminate naked pair candidates from other cells
 
     return pair_count;
 }

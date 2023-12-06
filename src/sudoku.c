@@ -5,6 +5,8 @@
 #include <stdlib.h>
 
 #include "hidden_singles.h"
+#include "hidden_pairs.h"
+#include "naked_pairs.h"
 
 void init_sudoku(SudokuBoard *p_board)
 {
@@ -250,6 +252,20 @@ int main(int argc, char **argv)
         if (solved_counter)
         {
             printf("hidden_singles %d\n", solved_counter);
+            continue;
+        }
+
+        solved_counter = hidden_pairs(board);
+        if (solved_counter)
+        {
+            printf("hidden_pairs %d\n", solved_counter);
+            continue;
+        }
+
+        solved_counter = naked_pairs(board);
+        if (solved_counter)
+        {
+            printf("naked_pairs %d\n", solved_counter);
             continue;
         }
     }
