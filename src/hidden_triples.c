@@ -5,23 +5,23 @@
 int find_hidden_triples(Cell **p_cells, HiddenTriple *hidden_triples) {
     int num_triples = 0;
 
-    for (int i = 0; i < BOARD_SIZE - 2; i++) {
-        for (int j = i + 1; j < BOARD_SIZE - 1; j++) {
-            for (int k = j + 1; k < BOARD_SIZE; k++) {
-                // Check if the cells have the same set of three candidates
-                if (p_cells[i]->num_candidates == 3 &&
-                    p_cells[j]->num_candidates == 3 &&
-                    p_cells[k]->num_candidates == 3 &&
-                    same_candidates(p_cells[i], p_cells[j]) &&
-                    same_candidates(p_cells[i], p_cells[k])) {
+    for (int val1 = 1; val1 <= BOARD_SIZE; val1++) {
+        for (int val2 = val1 + 1; val2 <= BOARD_SIZE; val2++) {
+            for (int val3 = val2 + 1; val3 <= BOARD_SIZE; val3++) {
+                Cell *cells_with_triple[3];
+                int count = 0;
 
-                    // Check if the set of three values is not in any other cells
-                    if (!is_in_list_hidden_triples(hidden_triples, num_triples, &(p_cells[i]), get_candidates(p_cells[i]))) {
-                        hidden_triples[num_triples++] = (HiddenTriple){{p_cells[i], p_cells[j], p_cells[k]},
-                                                                      {p_cells[i]->candidates[0],
-                                                                       p_cells[i]->candidates[1],
-                                                                       p_cells[i]->candidates[2]}};
+                for (int i = 0; i < BOARD_SIZE; i++) {
+                    if (is_candidate(p_cells[i], val1) && is_candidate(p_cells[i], val2) && is_candidate(p_cells[i], val3)) {
+                        if (count < 3) {
+                            cells_with_triple[count] = p_cells[i];
+                        }
+                        count++;
                     }
+                }
+
+                if (count == 3 && (cells_with_triple[0]->num_candidates > 3 || cells_with_triple[1]->num_candidates > 3 || cells_with_triple[2]->num_candidates > 3)) {
+                    hidden_triples[num_triples++] = (HiddenTriple){{cells_with_triple[0], cells_with_triple[1], cells_with_triple[2]}, {val1, val2, val3}};
                 }
             }
         }
@@ -53,9 +53,9 @@ bool is_in_list_hidden_triples(HiddenTriple *p_array, int size, Cell **p_cells, 
 void find_hidden_triples_in_group(Cell **p_group, HiddenTriple *hidden_triples, int *p_counter) {
     int triples_in_group = find_hidden_triples(p_group, hidden_triples);
     for (int i = 0; i < triples_in_group; i++) {
-        set_candidates(hidden_triples[i].p_cells[0], hidden_triples[i].values, 3);
-        set_candidates(hidden_triples[i].p_cells[1], hidden_triples[i].values, 3);
-        set_candidates(hidden_triples[i].p_cells[2], hidden_triples[i].values, 3);
+        unset_other_candidates(hidden_triples[i].p_cells[0], hidden_triples[i].values, 3);
+        unset_other_candidates(hidden_triples[i].p_cells[1], hidden_triples[i].values, 3);
+        unset_other_candidates(hidden_triples[i].p_cells[2], hidden_triples[i].values, 3);
         (*p_counter)++;
     }
 }

@@ -8,10 +8,12 @@ int find_naked_pairs(Cell **p_cells, NakedPair *naked_pairs) {
 
     for (int i = 0; i < BOARD_SIZE - 1; i++) {
         for (int j = i + 1; j < BOARD_SIZE; j++) {
-            // Check if the cells have the same set of two candidates
+            // Check if the cells have exactly two candidates and no others
             if (p_cells[i]->num_candidates == 2 &&
                 p_cells[j]->num_candidates == 2 &&
-                same_candidates(p_cells[i], p_cells[j])) {
+                same_candidates(p_cells[i], p_cells[j]) &&
+                p_cells[i]->candidates[0] == p_cells[j]->candidates[0] &&
+                p_cells[i]->candidates[1] == p_cells[j]->candidates[1]) {
 
                 // Check if the set of two values is not in any other cells
                 int *candidates = get_candidates(p_cells[i]);
@@ -30,10 +32,10 @@ int find_naked_pairs(Cell **p_cells, NakedPair *naked_pairs) {
 
 bool is_in_list_naked_pairs(NakedPair *p_array, int size, Cell **p_cells, int *values) {
     for (int i = 0; i < size; i++) {
-        if ((p_cells[0] == p_array[i].p_cells[0] && p_cells[1] == p_array[i].p_cells[1]) ||
-            (p_cells[0] == p_array[i].p_cells[1] && p_cells[1] == p_array[i].p_cells[0]) ||
-            (values[0] == p_array[i].values[0] && values[1] == p_array[i].values[1]) ||
-            (values[0] == p_array[i].values[1] && values[1] == p_array[i].values[0])) {
+        if ((p_cells[0] == p_array[i].p_cells[0] && p_cells[1] == p_array[i].p_cells[1] &&
+             values[0] == p_array[i].values[0] && values[1] == p_array[i].values[1]) ||
+            (p_cells[0] == p_array[i].p_cells[1] && p_cells[1] == p_array[i].p_cells[0] &&
+             values[0] == p_array[i].values[1] && values[1] == p_array[i].values[0])) {
             return true;
         }
     }
@@ -51,7 +53,7 @@ void find_naked_pairs_in_group(Cell **p_group, NakedPair *naked_pairs, int *p_co
 
 int naked_pairs(SudokuBoard *p_board) {
     int naked_pairs_counter = 0;
-    NakedPair naked_pairs[BOARD_SIZE * BOARD_SIZE];
+    NakedPair naked_pairs[BOARD_SIZE * BOARD_SIZE] = {0};
 
     // Check rows for naked pairs
     for (int i = 0; i < BOARD_SIZE; i++) {
