@@ -14,11 +14,13 @@ int find_naked_pairs(Cell **p_cells, NakedPair *naked_pairs) {
                 same_candidates(p_cells[i], p_cells[j])) {
 
                 // Check if the set of two values is not in any other cells
-                if (!is_in_list_naked_pairs(naked_pairs, num_pairs, &(p_cells[i]), get_candidates(p_cells[i]))) {
+                int *candidates = get_candidates(p_cells[i]);
+                if (!is_in_list_naked_pairs(naked_pairs, num_pairs, &(p_cells[i]), candidates)) {
                     naked_pairs[num_pairs++] = (NakedPair){{p_cells[i], p_cells[j]},
                                                             {p_cells[i]->candidates[0],
                                                              p_cells[i]->candidates[1]}};
                 }
+                free(candidates);  // Free the memory allocated by get_candidates
             }
         }
     }
