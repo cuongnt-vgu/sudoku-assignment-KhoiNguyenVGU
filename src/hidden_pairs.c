@@ -1,97 +1,66 @@
-#include <stdlib.h>
 #include "hidden_pairs.h"
 #include "utils.h"
+#include <stdlib.h>
 
-int hidden_pairs(SudokuBoard *p_board)
-{
-    for (int i = 0; i < BOARD_SIZE; i++)
-    {
-        for (int num1 = 1; num1 <= BOARD_SIZE; num1++)
-        {
-            for (int num2 = num1 + 1; num2 <= BOARD_SIZE; num2++)
-            {
-                Cell *pair_cells[2] = {NULL, NULL};
-                int pair_count;
+int find_hidden_pairs(Cell **p_cells, HiddenPair *hidden_pairs) {
+    int num_pairs = 0;
 
-                // Check rows
-                pair_count = 0;
-                for (int j = 0; j < BOARD_SIZE; j++)
-                {
-                    Cell *cell = p_board->p_rows[i][j];
-                    if (is_candidate(cell, num1) && is_candidate(cell, num2))
-                    {
-                        pair_cells[pair_count++] = cell;
-                        if (pair_count > 2)
-                            break;
-                    }
-                }
+    for (int i = 0; i < BOARD_SIZE - 1; i++) {
+        for (int j = i + 1; j < BOARD_SIZE; j++) {
+            if (p_cells[i]->num_candidates == 2 &&
+                p_cells[j]->num_candidates == 2 &&
+                same_candidates(p_cells[i], p_cells[j])) {
 
-                if (pair_count == 2 && pair_cells[0]->num_candidates > 2 && pair_cells[1]->num_candidates > 2)
-                {
-                    for (int num = 1; num <= BOARD_SIZE; num++)
-                    {
-                        if (num != num1 && num != num2)
-                        {
-                            unset_candidate(pair_cells[0], num);
-                            unset_candidate(pair_cells[1], num);
-                        }
-                    }
-                    return 1;
-                }
-
-                // Check columns
-                pair_count = 0;
-                for (int j = 0; j < BOARD_SIZE; j++)
-                {
-                    Cell *cell = p_board->p_cols[i][j];
-                    if (is_candidate(cell, num1) && is_candidate(cell, num2))
-                    {
-                        pair_cells[pair_count++] = cell;
-                        if (pair_count > 2)
-                            break;
-                    }
-                }
-
-                if (pair_count == 2 && pair_cells[0]->num_candidates > 2 && pair_cells[1]->num_candidates > 2)
-                {
-                    for (int num = 1; num <= BOARD_SIZE; num++)
-                    {
-                        if (num != num1 && num != num2)
-                        {
-                            unset_candidate(pair_cells[0], num);
-                            unset_candidate(pair_cells[1], num);
-                        }
-                    }
-                    return 1;
-                }
-
-                // Check boxes
-                pair_count = 0;
-                for (int j = 0; j < BOARD_SIZE; j++)
-                {
-                    Cell *cell = p_board->p_boxes[i][j];
-                    if (is_candidate(cell, num1) && is_candidate(cell, num2))
-                    {
-                        pair_cells[pair_count++] = cell;
-                        if (pair_count > 2)
-                            break;
-                    }
-                }
-
-                if (pair_count == 2 && pair_cells[0]->num_candidates > 2 && pair_cells[1]->num_candidates > 2)
-                {
-                    for (int num = 1; num <= BOARD_SIZE; num++)
-                    {
-                        if (num != num1 && num != num2)
-                        {
-                            unset_candidate(pair_cells[0], num);
-                            unset_candidate(pair_cells[1], num);
-                        }
-                    }
-                    return 1;
+                if (!is_in_list_hidden_pairs(hidden_pairs, num_pairs, &(p_cells[i]), get_candidates(p_cells[i]))) {
+                    hidden_pairs[num_pairs++] = (HiddenPair){{p_cells[i], p_cells[j]},
+                                                             {p_cells[i]->candidates[0], p_cells[i]->candidates[1]}};
                 }
             }
         }
     }
-    return 0;
+
+    return num_pairs;
+}
+
+bool is_in_list_hidden_pairs(HiddenPair *p_array, int size, Cell **p_cells, int *values) {
+    for (int i = 0; i < size; i++) {
+        if ((p_cells[0] == p_array[i].p_cells[0] && p_cells[1] == p_array[i].p_cells[1]) ||
+            (p_cells[0] == p_array[i].p_cells[1] && p_cells[1] == p_array[i].p_cells[0]) ||
+            (values[0] == p_array[i].values[0] && values[1] == p_array[i].values[1]) ||
+            (values[0] == p_array[i].values[1] && values[1] == p_array[i].values[0])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void find_hidden_pairs_in_group(Cell **p_group, HiddenPair *hidden_pairs, int *p_counter) {
+    int pairs_in_group = find_hidden_pairs(p_group, hidden_pairs);
+    for (int i = 0; i < pairs_in_group; i++) {
+        set_candidates(hidden_pairs[i].p_cells[0], hidden_pairs[i].values, 2);
+        set_candidates(hidden_pairs[i].p_cells[1], hidden_pairs[i].values, 2);
+        (*p_counter)++;
+    }
+}
+
+int hidden_pairs(SudokuBoard *p_board) {
+    int hidden_pairs_counter = 0;
+    HiddenPair hidden_pairs[BOARD_SIZE * BOARD_SIZE];
+
+    // Check rows for hidden pairs
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        find_hidden_pairs_in_group(p_board->p_rows[i], hidden_pairs, &hidden_pairs_counter);
+    }
+
+    // Check columns for hidden pairs
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        find_hidden_pairs_in_group(p_board->p_cols[i], hidden_pairs, &hidden_pairs_counter);
+    }
+
+    // Check boxes for hidden pairs
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        find_hidden_pairs_in_group(p_board->p_boxes[i], hidden_pairs, &hidden_pairs_counter);
+    }
+
+    return hidden_pairs_counter;
 }
