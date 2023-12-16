@@ -48,8 +48,7 @@ bool is_in_list_hidden_singles(HiddenSingle *p_array, int size, Cell *p)
     return false;
 }
 
-void find_hidden_single(Cell **p_cells, HiddenSingle *p_hidden_singles,
-                        int *p_counter)
+void find_hidden_single(Cell **p_cells, HiddenSingle *p_hidden_singles, int *p_counter)
 {
     int hidden_single_values[BOARD_SIZE];
     int num_values = find_hidden_single_values(p_cells, hidden_single_values);
