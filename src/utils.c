@@ -244,3 +244,11 @@ int contains(int *array, int size, int value)
     }
     return 0;
 }
+
+void unset_other_candidates(Cell *cell, int *candidates, int size) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        if (!contains(candidates, size, i + 1)) {
+            unset_candidate(cell, i + 1);
+        }
+    }
+}

@@ -20,3 +20,4 @@ int check_solved_cells(SudokuBoard *p_board, Cell ***p_solved_cells);
 void print_candidate_num(SudokuBoard *p_board);
 int same_candidates(Cell *cell1, Cell *cell2);
 int contains(int *array, int size, int value);
+void unset_other_candidates(Cell *cell, int *candidates, int size);
