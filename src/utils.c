@@ -69,18 +69,14 @@ void print_solution(SudokuBoard *p_board)
 
 void set_candidate(Cell *cell, int value)
 {
-    if (cell->candidates[value - 1] == 0) {
-        cell->candidates[value - 1] = 1;
-        cell->num_candidates += 1;
-    }
+    cell->candidates[value - 1] = 1;
+    cell->num_candidates += 1;
 }
 
 void unset_candidate(Cell *cell, int value)
 {
-    if (cell->candidates[value - 1] == 1) {
-        cell->candidates[value - 1] = 0;
-        cell->num_candidates -= 1;
-    }
+    cell->candidates[value - 1] = 0;
+    cell->num_candidates -= 1;
 }
 
 bool is_candidate(Cell *cell, int value)
@@ -222,37 +218,5 @@ void print_candidate_num(SudokuBoard *p_board)
             printf("%d ", p_board->data[i][j].num_candidates);
         }
         printf("\n");
-    }
-}
-
-int same_candidates(Cell *cell1, Cell *cell2)
-{
-    if (cell1->num_candidates != cell2->num_candidates)
-        return 0;
-
-    for (int i = 0; i < cell1->num_candidates; i++)
-    {
-        if (cell1->candidates[i] != cell2->candidates[i])
-            return 0;
-    }
-
-    return 1;
-}
-
-int contains(int *array, int size, int value)
-{
-    for (int i = 0; i < size; i++)
-    {
-        if (array[i] == value)
-            return 1;
-    }
-    return 0;
-}
-
-void unset_other_candidates(Cell *cell, int *candidates, int size) {
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        if (!contains(candidates, size, i + 1)) {
-            unset_candidate(cell, i + 1);
-        }
     }
 }
