@@ -40,6 +40,7 @@ void print_solution(SudokuBoard *p_board);
 
 void set_candidate(Cell *cell, int value);
 void unset_candidate(Cell *cell, int value);
+bool is_candidate(Cell *cell, int value);
 void set_candidates(Cell *cell, int *candidates, int size);
 int *get_candidates(Cell *cell);
 
