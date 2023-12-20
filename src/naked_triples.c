@@ -19,24 +19,23 @@ void find_naked_triples(Cell **p_cells, int *p_counter, int *p_unset, NakedTripl
 {
     for (int i = 0; i < BOARD_SIZE - 2; i++) 
     {
-        if (p_cells[i]->num_candidates == 3) 
+        if (p_cells[i]->num_candidates == 2 || p_cells[i]->num_candidates == 3) 
         {
             for (int j = i + 1; j < BOARD_SIZE - 1; j++) 
             {
-                if (p_cells[j]->num_candidates == 3) 
+                if (p_cells[j]->num_candidates == 2 || p_cells[j]->num_candidates == 3) 
                 {
                     for (int k = j + 1; k < BOARD_SIZE; k++) 
                     {
-                        if (p_cells[k]->num_candidates == 3) 
+                        if (p_cells[k]->num_candidates == 2 || p_cells[k]->num_candidates == 3) 
                         {
                             int *candidates_1 = get_candidates(p_cells[i]);
                             int *candidates_2 = get_candidates(p_cells[j]);
                             int *candidates_3 = get_candidates(p_cells[k]);
-                            
-                            if ((candidates_1[0] == candidates_2[0] && candidates_1[0] == candidates_3[0]) &&
-                                (candidates_1[1] == candidates_2[1] && candidates_1[1] == candidates_3[1]) &&
-                                (candidates_1[2] == candidates_2[2] && candidates_1[2] == candidates_3[2])) {
-                                
+                            int *unique_candidates = unique_candidates_arr(p_cells[i], p_cells[j], p_cells[k], p_cells[i]->num_candidates, p_cells[j]->num_candidates, p_cells[k]->num_candidates);
+
+                            if (num_unique_candidates(p_cells[i], p_cells[j], p_cells[k], p_cells[i]->num_candidates, p_cells[j]->num_candidates, p_cells[k]->num_candidates) == 3)
+                            {    
                                 for (int l = 0; l < BOARD_SIZE; l++) 
                                 {
                                     if ((l != i) && (l != j) && (l != k) && (p_cells[l]->num_candidates > 1)) 
@@ -49,12 +48,12 @@ void find_naked_triples(Cell **p_cells, int *p_counter, int *p_unset, NakedTripl
                                             (*p_counter)++;
                                         }
 
-                                        if (is_candidate(p_cells[l], candidates_1[0]) || is_candidate(p_cells[l], candidates_1[1]) || is_candidate(p_cells[l], candidates_1[2])) 
+                                        if (is_candidate(p_cells[l], unique_candidates[0]) || is_candidate(p_cells[l], unique_candidates[1]) || is_candidate(p_cells[l], unique_candidates[2])) 
                                         {
                                             p_unset_array[*p_unset].p_cell = p_cells[l];
-                                            p_unset_array[*p_unset].candidate_1 = candidates_1[0];
-                                            p_unset_array[*p_unset].candidate_2 = candidates_1[1];
-                                            p_unset_array[*p_unset].candidate_3 = candidates_1[2];
+                                            p_unset_array[*p_unset].candidate_1 = unique_candidates[0];
+                                            p_unset_array[*p_unset].candidate_2 = unique_candidates[1];
+                                            p_unset_array[*p_unset].candidate_3 = unique_candidates[2];
                                             (*p_unset)++;
                                         }
                                     }
@@ -63,12 +62,97 @@ void find_naked_triples(Cell **p_cells, int *p_counter, int *p_unset, NakedTripl
                             free(candidates_1);
                             free(candidates_2);
                             free(candidates_3);
+                            free(unique_candidates);
                         }
                     }
                 }
             }
         }
     }
+}
+
+int num_unique_candidates(Cell *cell_1, Cell *cell_2, Cell *cell_3, int len_1, int len_2, int len_3)
+{
+    int *candidates_1 = get_candidates(cell_1);
+    int *candidates_2 = get_candidates(cell_2);
+    int *candidates_3 = get_candidates(cell_3);
+
+    int unique_candidates[3];
+    int count = 0;
+
+    for (int i = 0; i < len_1; i++) 
+    {
+        if (!is_in_array(unique_candidates, count, candidates_1[i])) 
+        {
+            unique_candidates[count++] = candidates_1[i];
+        }
+    }
+    
+    for (int i = 0; i < len_2; i++) 
+    {
+        if (!is_in_array(unique_candidates, count, candidates_2[i])) 
+        {
+            unique_candidates[count++] = candidates_2[i];
+        }
+    }
+    
+    for (int i = 0; i < len_3; i++) 
+    {
+        if (!is_in_array(unique_candidates, count, candidates_3[i])) 
+        {
+            unique_candidates[count++] = candidates_3[i];
+        }
+    }
+
+    return count;
+}
+
+int *unique_candidates_arr(Cell *cell_1, Cell *cell_2, Cell *cell_3, int len_1, int len_2, int len_3)
+{
+    int *candidates_1 = get_candidates(cell_1);
+    int *candidates_2 = get_candidates(cell_2);
+    int *candidates_3 = get_candidates(cell_3);
+
+    int *unique_candidates = malloc(3 * sizeof(int));
+    int count = 0;
+
+    for (int i = 0; i < len_1; i++) 
+    {
+        if (!is_in_array(unique_candidates, count, candidates_1[i])) 
+        {
+            unique_candidates[count++] = candidates_1[i];
+        }
+    }
+    
+    for (int i = 0; i < len_2; i++) 
+    {
+        if (!is_in_array(unique_candidates, count, candidates_2[i])) 
+        {
+            unique_candidates[count++] = candidates_2[i];
+        }
+    }
+    
+    for (int i = 0; i < len_3; i++) 
+    {
+        if (!is_in_array(unique_candidates, count, candidates_3[i])) 
+        {
+            unique_candidates[count++] = candidates_3[i];
+        }
+    }
+
+    return unique_candidates;
+}
+
+int is_in_array(int *array, int count, int value) 
+{
+    for (int i = 0; i < count; i++) 
+    {
+        if (array[i] == value) 
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int naked_triples(SudokuBoard *p_board) 
