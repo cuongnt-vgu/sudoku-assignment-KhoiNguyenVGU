@@ -1,7 +1,4 @@
 #include "naked_pairs.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 
 bool is_in_list_naked_pairs(NakedPairs *p_array, Cell *p)
 {

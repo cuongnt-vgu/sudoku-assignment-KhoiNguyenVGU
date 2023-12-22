@@ -1,5 +1,4 @@
 #include "hidden_singles.h"
-#include <stdlib.h>
 
 int find_hidden_single_values(Cell **p_cells, int *hidden_single_values) 
 {

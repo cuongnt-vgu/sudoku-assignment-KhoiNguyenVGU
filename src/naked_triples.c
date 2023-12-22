@@ -1,7 +1,4 @@
 #include "naked_triples.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 
 bool is_in_list_naked_triples(NakedTriples *p_array, Cell *p, Cell *m, Cell *n) 
 {
