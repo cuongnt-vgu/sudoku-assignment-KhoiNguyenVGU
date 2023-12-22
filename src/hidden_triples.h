@@ -2,7 +2,8 @@
 
 #include "sudoku.h"
 
-typedef struct {
+typedef struct HiddenTriple_impl
+{
     Cell *p_cell_1;
     Cell *p_cell_2;
     Cell *p_cell_3;  
