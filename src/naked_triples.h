@@ -20,6 +20,5 @@ typedef struct UnsetDataTriples_impl
 
 bool is_in_list_naked_triples(NakedTriples *p_array, Cell *p, Cell *m, Cell *n);
 void find_naked_triples(Cell **p_cells, int *p_counter, int *p_unset, NakedTriples *p_naked_triples, UnsetDataTriples *p_unset_array);
-int is_in_array(int *array, int count, int value);
 bool is_in_candidates(int *stored, int candidate);
 int naked_triples(SudokuBoard *p_board);
