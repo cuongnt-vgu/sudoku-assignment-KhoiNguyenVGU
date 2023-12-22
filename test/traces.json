@@ -88,5 +88,14 @@
             "num_detects": 3,
             "boards": "soocs8dkdk6408ei6mco8c03g1ck6411eg6k1121c009034484g10g03h8h821l8k80g0581q8p80h96pcge4132g00541r092p00h223209k00hk0462181060911e88a054i4o11g1ei6iu8pav84mkskea6ei6m"
         }
+    },
+    "test011": {
+        "description":"Naked pairs",
+        "board_input": "8gu0oghoko03j8h805e28409h4k4d4j20hr08i118kgs218k41gao81q0e1m81gm20ho41h83i2641gm0k0981h4j0g1ac8k40110k2o0c035aka211q815g05hah81a0hh2210e14ha804105ca921a4ag11a210g",
+        "method": "naked_pairs",
+        "output": {
+            "num_detects": 1,
+            "boards": "8gu0oghoko03j8h805e28409h4k4d4j20hr08i118kgs218k41gao81q0e1m81g220ho41h83i2641g20k0981h4j0g1ac8k40110k2o0c035aka211q815g05hah81a0hh2210e14ha804105ca921a4ag11a210g"
+        }
     }
 }

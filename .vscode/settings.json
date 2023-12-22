@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "hidden_singles.h": "c",
-        "naked_triples.h": "c"
+        "naked_triples.h": "c",
+        "algorithm": "c",
+        "array": "c"
     }
 }
