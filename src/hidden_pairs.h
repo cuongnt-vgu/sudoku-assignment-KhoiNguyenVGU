@@ -2,7 +2,7 @@
 
 #include "sudoku.h"
 
-typedef struct HiddenPairs_impl
+typedef struct HiddenPairs_struct
 {
     Cell *p_cell_1;
     Cell *p_cell_2;

@@ -2,14 +2,14 @@
 
 #include "sudoku.h"
 
-typedef struct NakedTriples_impl
+typedef struct NakedTriples_struct
 {
     Cell *p_cell_1;
     Cell *p_cell_2;
     Cell *p_cell_3;
 } NakedTriples;
 
-typedef struct UnsetDataTriples_impl
+typedef struct UnsetDataTriples_struct
 {
     Cell *p_cell;
     int candidate_1;

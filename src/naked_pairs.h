@@ -2,13 +2,13 @@
 
 #include "sudoku.h"
 
-typedef struct NakedPairs_impl
+typedef struct NakedPairs_struct
 {
     Cell *p_cell_1;
     Cell *p_cell_2;
 } NakedPairs;
 
-typedef struct UnsetDataPairs_impl
+typedef struct UnsetDataPairs_struct
 {
     Cell *p_cell;
     int candidate_1;
