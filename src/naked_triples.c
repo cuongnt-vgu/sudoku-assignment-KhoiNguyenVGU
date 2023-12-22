@@ -53,6 +53,51 @@ void find_naked_triples(Cell **p_cells, int *p_counter, int *p_unset, NakedTripl
         {
             for (int k = j + 1; k < BOARD_SIZE; k++)
             {   
+                // Check if the three cells form a valid naked triple
+                if ((p_cells[i]->num_candidates == 2 || p_cells[i]->num_candidates == 3) &&
+                    (p_cells[j]->num_candidates == 2 || p_cells[j]->num_candidates == 3) &&
+                    (p_cells[k]->num_candidates == 2 || p_cells[k]->num_candidates == 3))
+                {
+                    // Combine the candidates of the three cells
+                    int combined_candidates[3] = {0};
+                    int num_combined_candidates = 0;
+
+                    for (int m = 0; m < p_cells[i]->num_candidates; m++)
+                    {
+                        if (!is_in_candidates(combined_candidates, p_cells[i]->candidates[m]))
+                        {
+                            combined_candidates[num_combined_candidates++] = p_cells[i]->candidates[m];
+                        }
+                    }
+
+                    for (int m = 0; m < p_cells[j]->num_candidates; m++)
+                    {
+                        if (!is_in_candidates(combined_candidates, p_cells[j]->candidates[m]))
+                        {
+                            combined_candidates[num_combined_candidates++] = p_cells[j]->candidates[m];
+                        }
+                    }
+
+                    for (int m = 0; m < p_cells[k]->num_candidates; m++)
+                    {
+                        if (!is_in_candidates(combined_candidates, p_cells[k]->candidates[m]))
+                        {
+                            combined_candidates[num_combined_candidates++] = p_cells[k]->candidates[m];
+                        }
+                    }
+
+                    // If there are exactly three combined candidates, it's a valid naked triple
+                    if (num_combined_candidates == 3)
+                    {
+                        // Fill the stored_candidates array with the combined candidates
+                        stored_candidates[0] = combined_candidates[0];
+                        stored_candidates[1] = combined_candidates[1];
+                        stored_candidates[2] = combined_candidates[2];
+
+                        // ... rest of the code remains the same ...
+                    }
+                }
+                
                 for (int l = 0; l < BOARD_SIZE; l++)
                 {
                     if (p_cells[l]->num_candidates > 1)
