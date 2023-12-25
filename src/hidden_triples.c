@@ -68,21 +68,21 @@ void find_hidden_triples(Cell **p_cells, HiddenTriples *p_hidden_triples, int *p
                             for (int n = m + 1; n < BOARD_SIZE; n++)
                             {
                                 int count_l = 0;
-                                if (p_cells[l]->candidates[hidden_triple_values[i] - 1] >= 1) count_l++;
-                                if (p_cells[l]->candidates[hidden_triple_values[j] - 1] >= 1) count_l++;
-                                if (p_cells[l]->candidates[hidden_triple_values[k] - 1] >= 1) count_l++;
+                                if (p_cells[l]->candidates[hidden_triple_values[i] - 1] > 0) count_l++;
+                                if (p_cells[l]->candidates[hidden_triple_values[j] - 1] > 0) count_l++;
+                                if (p_cells[l]->candidates[hidden_triple_values[k] - 1] > 0) count_l++;
 
                                 int count_m = 0;
-                                if (p_cells[m]->candidates[hidden_triple_values[i] - 1] >= 1) count_m++;
-                                if (p_cells[m]->candidates[hidden_triple_values[j] - 1] >= 1) count_m++;
-                                if (p_cells[m]->candidates[hidden_triple_values[k] - 1] >= 1) count_m++;
+                                if (p_cells[m]->candidates[hidden_triple_values[i] - 1] > 0) count_m++;
+                                if (p_cells[m]->candidates[hidden_triple_values[j] - 1] > 0) count_m++;
+                                if (p_cells[m]->candidates[hidden_triple_values[k] - 1] > 0) count_m++;
 
                                 int count_n = 0;
-                                if (p_cells[n]->candidates[hidden_triple_values[i] - 1] >= 1) count_n++;
-                                if (p_cells[n]->candidates[hidden_triple_values[j] - 1] >= 1) count_n++;
-                                if (p_cells[n]->candidates[hidden_triple_values[k] - 1] >= 1) count_n++;
+                                if (p_cells[n]->candidates[hidden_triple_values[i] - 1] > 0) count_n++;
+                                if (p_cells[n]->candidates[hidden_triple_values[j] - 1] > 0) count_n++;
+                                if (p_cells[n]->candidates[hidden_triple_values[k] - 1] > 0) count_n++;
 
-                                if (count_l >= 2 && count_m >= 2 && count_n >= 2)
+                                if (count_l > 1 && count_m > 1 && count_n > 1)
                                 {
                                     p_hidden_triples[(*p_counter)++] = (HiddenTriples){p_cells[l], p_cells[m], p_cells[n], hidden_triple_values[i], hidden_triple_values[j], hidden_triple_values[k]};
                                 }

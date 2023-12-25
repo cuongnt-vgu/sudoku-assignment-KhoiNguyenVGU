@@ -58,15 +58,15 @@ void find_naked_pairs(Cell **p_cells, int *p_counter, int *p_unset, NakedPairs *
 int naked_pairs(SudokuBoard *p_board)
 {
     NakedPairs naked_pairs[BOARD_SIZE * BOARD_SIZE];
-    int naked_counter = 0;
+    int naked_pairs_counter = 0;
     UnsetDataPairs unset_array[BOARD_SIZE * BOARD_SIZE];
     int unset_counter = 0;
 
     for (int i = 0; i < BOARD_SIZE; i++)
     {
-        find_naked_pairs(p_board->p_rows[i], &naked_counter, &unset_counter, naked_pairs, unset_array);
-        find_naked_pairs(p_board->p_cols[i], &naked_counter, &unset_counter, naked_pairs, unset_array);
-        find_naked_pairs(p_board->p_boxes[i], &naked_counter, &unset_counter, naked_pairs, unset_array);
+        find_naked_pairs(p_board->p_rows[i], &naked_pairs_counter, &unset_counter, naked_pairs, unset_array);
+        find_naked_pairs(p_board->p_cols[i], &naked_pairs_counter, &unset_counter, naked_pairs, unset_array);
+        find_naked_pairs(p_board->p_boxes[i], &naked_pairs_counter, &unset_counter, naked_pairs, unset_array);
     }
 
     for (int i = 0; i < unset_counter; i++)
@@ -81,5 +81,5 @@ int naked_pairs(SudokuBoard *p_board)
         }
     }
     
-    return naked_counter;
+    return naked_pairs_counter;
 }

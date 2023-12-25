@@ -220,15 +220,15 @@ bool is_in_candidates(int *stored, int candidate)
 int naked_triples(SudokuBoard *p_board) 
 {
     NakedTriples naked_triples[BOARD_SIZE * BOARD_SIZE];
-    int triples_counter = 0;
+    int naked_triples_counter = 0;
     UnsetDataTriples unset_array[BOARD_SIZE * BOARD_SIZE];
     int unset_counter = 0;
 
     for (int i = 0; i < BOARD_SIZE; i++) 
     {
-        find_naked_triples(p_board->p_rows[i], &triples_counter, &unset_counter, naked_triples, unset_array);
-        find_naked_triples(p_board->p_cols[i], &triples_counter, &unset_counter, naked_triples, unset_array);
-        find_naked_triples(p_board->p_boxes[i], &triples_counter, &unset_counter, naked_triples, unset_array);
+        find_naked_triples(p_board->p_rows[i], &naked_triples_counter, &unset_counter, naked_triples, unset_array);
+        find_naked_triples(p_board->p_cols[i], &naked_triples_counter, &unset_counter, naked_triples, unset_array);
+        find_naked_triples(p_board->p_boxes[i], &naked_triples_counter, &unset_counter, naked_triples, unset_array);
     }
 
     for (int i = 0; i < unset_counter; i++) 
@@ -253,5 +253,5 @@ int naked_triples(SudokuBoard *p_board)
         }
     }
 
-    return triples_counter;
+    return naked_triples_counter;
 }
