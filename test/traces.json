@@ -94,7 +94,7 @@
         "board_input": "8gu0oghoko03j8h805e28409h4k4d4j20hr08i118kgs218k41gao81q0e1m81gm20ho41h83i2641gm0k0981h4j0g1ac8k40110k2o0c035aka211q815g05hah81a0hh2210e14ha804105ca921a4ag11a210g",
         "method": "naked_pairs",
         "output": {
-            "num_detects": 1,
+            "num_detects": 2,
             "boards": "8gu0oghoko03j8h805e28409h4k4d4j20hr08i118kgs218k41gao81q0e1m81g220ho41h83i2641g20k0981h4j0g1ac8k40110k2o0c035aka211q815g05hah81a0hh2210e14ha804105ca921a4ag11a210g"
         }
     },
@@ -121,7 +121,7 @@
         "board_input": "oaa2a241040hqaa811p805bgj803h8qo41iola6i7ij881h8iq2o05c2g1ci82082105114g210i04h041h2go0o81c01109050go0m003m00he2f208g18afa046ad209d2822104dig14i05a2g00h1041aaa82a",
         "method": "naked_pairs",
         "output": {
-            "num_detects": 1,
+            "num_detects": 3,
             "boards": "oaa2a241040hqaa811p805bgj803h8qo41iola6i7ij881h8iq2o05c2g1ci82082105114g210i04h041h2go0o81c01109050go0m003m00he2f208g18afa046ad209d2822104dig14i05a2g00h1041aaa82a"
         }
     },
